@@ -793,6 +793,7 @@ Player::Player(WorldSession* session): Unit(true), m_achievementMgr(this), m_rep
 
     m_activeSpec = 0;
     m_specsCount = 1;
+    m_duelState = false;
 
     for (uint8 i = 0; i < MAX_TALENT_SPECS; ++i)
     {
@@ -17264,6 +17265,7 @@ bool Player::LoadFromDB(uint32 guid, SQLQueryHolder *holder)
 
     m_specsCount = fields[59].GetUInt8();
     m_activeSpec = fields[60].GetUInt8();
+    m_duelState = false;
 
     // sanity check
     if (m_specsCount > MAX_TALENT_SPECS || m_activeSpec > MAX_TALENT_SPEC || m_specsCount < MIN_TALENT_SPECS)

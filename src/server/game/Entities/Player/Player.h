@@ -2123,6 +2123,13 @@ class Player : public Unit, public GridObject<Player>
         void SendNotifyLootMoneyRemoved();
 
         /*********************************************************/
+        /***               DUEL BATTLEGROUND SYSTEM            ***/
+        /*********************************************************/
+
+        void setDuelState(bool state) { m_duelState = state; }
+        bool getDuelState() { return m_duelState; }
+
+        /*********************************************************/
         /***               BATTLEGROUND SYSTEM                 ***/
         /*********************************************************/
 
@@ -2367,6 +2374,7 @@ class Player : public Unit, public GridObject<Player>
 
         uint32 m_HomebindTimer;
         bool m_InstanceValid;
+        bool m_duelState;
         // permanent binds and solo binds by difficulty
         BoundInstancesMap m_boundInstances[MAX_DIFFICULTY];
         InstancePlayerBind* GetBoundInstance(uint32 mapid, Difficulty difficulty);
