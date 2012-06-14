@@ -85,9 +85,9 @@ public:
 
         _player->setDuelState(true);
         target->setDuelState(true);
-        BattlegroundQueue& bgQueue = sBattlegroundMgr->m_BattlegroundQueues[BATTLEGROUND_QUEUE_2v2];
-        GroupQueueInfo* ginfo = bgQueue.AddGroup(_player, NULL, BATTLEGROUND_AA, bracketEntry, 2, false, false, 0, 0);
-        GroupQueueInfo* ginfo2 = bgQueue.AddGroup(target, NULL, BATTLEGROUND_AA, bracketEntry, 2, false, false, 0, 0);
+        BattlegroundQueue& bgQueue = sBattlegroundMgr->m_BattlegroundQueues[BATTLEGROUND_QUEUE_1v1];
+        GroupQueueInfo* ginfo = bgQueue.AddGroup(_player, NULL, BATTLEGROUND_AA, bracketEntry, 1, false, false, 0, 0);
+        GroupQueueInfo* ginfo2 = bgQueue.AddGroup(target, NULL, BATTLEGROUND_AA, bracketEntry, 1, false, false, 0, 0);
         bgQueue.BattleGroundDuelQueueUpdate(ginfo, ginfo2);
     }
 

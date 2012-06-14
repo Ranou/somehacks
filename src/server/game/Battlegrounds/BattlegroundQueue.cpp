@@ -747,7 +747,7 @@ void BattlegroundQueue::BattleGroundDuelQueueUpdate(GroupQueueInfo* group1, Grou
         return;
     }
 
-    Battleground* bg2 = sBattlegroundMgr->CreateNewBattleground(BATTLEGROUND_AA, bracketEntry, 2, false);
+    Battleground* bg2 = sBattlegroundMgr->CreateNewBattleground(BATTLEGROUND_AA, bracketEntry, 1, false);
     if (!bg2)
     {
         sLog->outError("BattlegroundQueue::Update - Cannot create custom duel battleground");
