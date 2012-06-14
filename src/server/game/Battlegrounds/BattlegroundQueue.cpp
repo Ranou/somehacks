@@ -417,7 +417,7 @@ bool BattlegroundQueue::GetPlayerGroupInfoData(uint64 guid, GroupQueueInfo* ginf
     return true;
 }
 
-bool BattlegroundQueue::InviteGroupToBG(GroupQueueInfo* ginfo, Battleground* bg, uint32 side)
+bool BattlegroundQueue::InviteGroupToBG(GroupQueueInfo* ginfo, Battleground* bg, uint32 side, bool slotforce)
 {
     // set side if needed
     if (side)
@@ -465,7 +465,11 @@ bool BattlegroundQueue::InviteGroupToBG(GroupQueueInfo* ginfo, Battleground* bg,
 
             WorldPacket data;
 
-            uint32 queueSlot = player->GetBattlegroundQueueIndex(bgQueueTypeId);
+            uint32 queueSlot = 0;
+            if (slotforce)
+                queueSlot = 0;
+            else
+                uint32 queueSlot = player->GetBattlegroundQueueIndex(bgQueueTypeId);
 
             sLog->outDebug(LOG_FILTER_BATTLEGROUND, "Battleground: invited player %s (%u) to BG instance %u queueindex %u bgtype %u, I can't help it if they don't press the enter battle button.", player->GetName(), player->GetGUIDLow(), bg->GetInstanceID(), queueSlot, bg->GetTypeID());
 
@@ -750,10 +754,11 @@ void BattlegroundQueue::BattleGroundDuelQueueUpdate(GroupQueueInfo* group1, Grou
             return;
     }
 
-    InviteGroupToBG(group1, bg2, ALLIANCE);
-    InviteGroupToBG(group2, bg2, HORDE);
+    InviteGroupToBG(group1, bg2, ALLIANCE, true);
+    InviteGroupToBG(group2, bg2, HORDE, true);
     // start bg
     bg2->StartBattleground();
+    bg2->RemoveFromBGFreeSlotQueue();
 }
 
 /*

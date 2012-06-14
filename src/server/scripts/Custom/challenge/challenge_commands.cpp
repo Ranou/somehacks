@@ -27,6 +27,8 @@ EndScriptData */
 #include "MapManager.h"
 #include "Chat.h"
 #include "Group.h"
+#include "BattlegroundMgr.h"
+#include "Battleground.h"
 #include "challenge.h"
 
 class challenge_commandscript : public CommandScript
@@ -66,7 +68,27 @@ public:
 			return false;
 		}
 
+        BattlegroundBracketId bracket_id = BattlegroundBracketId(14);
+        Battleground* bg_template = sBattlegroundMgr->GetBattlegroundTemplate(BATTLEGROUND_AA);
+        if (!bg_template)
+        {
+            sLog->outError("Battleground: Update: bg template not found for custom duel arena", BATTLEGROUND_AA);
+            return false;
+        }
+
+        PvPDifficultyEntry const* bracketEntry = GetBattlegroundBracketById(bg_template->GetMapId(), bracket_id);
+        if (!bracketEntry)
+        {
+            sLog->outError("Battleground: Update: bg bracket entry not found for map %u bracket id %u", bg_template->GetMapId(), bracket_id);
+            return false;
+        }
+
         _player->setDuelState(true);
+        target->setDuelState(true);
+        BattlegroundQueue& bgQueue = sBattlegroundMgr->m_BattlegroundQueues[BATTLEGROUND_QUEUE_2v2];
+        GroupQueueInfo* ginfo = bgQueue.AddGroup(_player, NULL, BATTLEGROUND_AA, bracketEntry, 2, false, false, 0, 0);
+        GroupQueueInfo* ginfo2 = bgQueue.AddGroup(target, NULL, BATTLEGROUND_AA, bracketEntry, 2, false, false, 0, 0);
+        bgQueue.BattleGroundDuelQueueUpdate(ginfo, ginfo2);
     }
 
     static bool HandleAgreeRequest(ChatHandler* handler, const char* args)
